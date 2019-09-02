@@ -25,6 +25,29 @@ let scoreTotPlayer1 = 0
 let scoreTotPlayer2 = 0
 
 
+gameControl = {
+    playerMode: '1player',
+    turn: 1,
+    turnCheck: () => {
+        this.turn = (1) ? (this.turn = 2) : (this.turn = 1); 
+    },
+    modeCheck: ()=>{
+        if(this.playerMode === '2player'){
+            if(turn == 1){
+                roleDice1.disabled = false
+                roleDice2.disabled = true
+            }
+            else{
+                roleDice1.disabled = true
+                roleDice2.disabled = false
+            }
+
+        }
+        else{
+            roleDice2.disabled = true
+        }
+    }
+}
 
 
 thePlayer1 = {
@@ -64,16 +87,16 @@ dice = {
 
 
 // How many players
-const checkNumPlayers = () =>{
-    if(choosePlayerNum.checked = true){
-        console.log(`2 players`)
-        return true
-    }
-    else {
-        console.log(`1 players`)
-        return false
-    }
-}
+// const checkNumPlayers = () =>{
+//     if(choosePlayerNum.checked = true){
+//         console.log(`2 players`)
+//         return true
+//     }
+//     else {
+//         console.log(`1 players`)
+//         return false
+//     }
+// }
 
 
 
@@ -116,18 +139,19 @@ const checkNumPlayers = () =>{
 
 
 // keep rolling , score adds up
-const gamePlay = (player, playerId, scoreId)=> {
+const gamePlay = (player, diceId, scoreId, playerMessage)=> {
     // player --> e.g. thePlayer1 object   ,  playerID --> eg. player1
     console.log(`player.state   ${player.state}\n   player.scoreTot ${player.scoreTot}\n   player.name  ${player.name}\n  player.playerNumber  ${player.playerNumber}`)
         
     // roll dice
         let theScore = dice.diceRolling()
-        playerId.src = dice.getDicePic(theScore)
+        diceId.src = dice.getDicePic(theScore)
         console.log(`theScore  ${theScore}`)
 
         // Check if 1
         if(theScore === 1){
             console.log(`game over - loose`)
+            playerMessage.textContent = "LOOSE"
             player.scoreTot = 0
             player.state = "loose"
             return "loose"
@@ -138,7 +162,8 @@ const gamePlay = (player, playerId, scoreId)=> {
 
         if(player.scoreTot > 20){
             console.log(`game WIN`)
-            player1.state = "WIN"
+            playerMessage.textContent = "WIN"
+            player.state = "WIN"
             return "win"
         }
 
@@ -146,18 +171,30 @@ const gamePlay = (player, playerId, scoreId)=> {
 
 
 
+
+
+
 // Listen to button and selection inputs
 roleDice1.addEventListener('click' , ()=>{
     console.log(`role Dice 1`)
-    gamePlay(thePlayer1, player1, score1)
+    gamePlay(thePlayer1, player1DiceImage, score1, playerMessage1)
     })
     
 
 roleDice2.addEventListener('click' , ()=>{
         console.log(`role Dice 2`)
-    gamePlay(thePlayer2, player2, score2)
+    gamePlay(thePlayer2, player2DiceImage, score2, playerMessage2)
     })
     
+
+    // gameControl = {
+    //     playerMode: '1player',
+    //     turn: 1,
+    //     turnCheck: () => {
+    //         this.turn = (1) ? (this.turn = 2) : (this.turn = 1); 
+    //     },
+    //     modeCheck:
+
 
 select2Player.addEventListener('click' ,()=>{
         console.log(`change player numbers  select2Player.checked ${select2Player.checked}`)
@@ -165,11 +202,14 @@ select2Player.addEventListener('click' ,()=>{
             console.log('1 player')
             thePlayer2.state = 'notPlaying'
             player2.classList.add('hide')
+            gameControl.playerMode = '1player'
+            
 
         } else{
             console.log('2 players')
             thePlayer2.state = 'playing'
             player2.classList.remove('hide')
+            gameControl.playerMode = '2player'
         }
 
         console.log(`thePlayer1 state ${thePlayer1.state}`)
