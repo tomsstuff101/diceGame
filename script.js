@@ -33,14 +33,18 @@ gameControl = {
         console.log(`this.playerMode  --> ${this.playerMode}`)
         if(this.playerMode === '2player'){
             if(this.turn == 1){
-                roleDice1.disabled = false
-                roleDice2.disabled = true
+                roleDice1.disabled = true
+                console.log(`roleDice1.disabled ++  ${roleDice1.disabled}`)
+                roleDice2.disabled = false
+                console.log(`roleDice2.disabled ++  ${roleDice2.disabled}`)
                 this.turn = 2
             }
             else{
-                roleDice1.disabled = true
-                roleDice2.disabled = false
+                roleDice1.disabled = false
+                roleDice2.disabled = true
                 this.turn = 1
+                console.log(`roleDice1.disabled --  ${roleDice1.disabled}`)
+                console.log(`roleDice2.disabled --  ${roleDice2.disabled}`)
             }
 
         }
@@ -152,38 +156,47 @@ const gamePlay = (player, diceId, scoreId, playerMessage)=> {
         // Check if 1
         if(theScore === 1){
             console.log(`game over - loose`)
-            playerMessage.textContent = "LOOSE"
             player.scoreTot = 0
-            player.state = "loose"  
+            player.state = "Loose"  
+            playerMessage.textContent = player.state
             return "loose"
         }
 
+        if(player.scoreTot > 20){
+            console.log(`game WIN`)
+            player.state = "Win"
+            playerMessage.textContent = player.state
+            return "win"
+        }
+        // need to have 'turn' in the message
         player.scoreTot = player.scoreTot + theScore
         scoreId.value = player.scoreTot
         scoreId.textContent = player.scoreTot
         gameControl.modeCheck()
         console.log(`gameControl.playerMode  --> ${gameControl.playerMode}`)
         console.log(`gameControl.turn   --> ${gameControl.turn}`)
+        playerMessage.textContent = player.state
+        
 
-        if(player.scoreTot > 20){
-            console.log(`game WIN`)
-            playerMessage.textContent = "WIN"
-            player.state = "WIN"
-            return "win"
-        }
 
 }
 
 
+
+
+
 const init = ()=>{
-    thePlayer2.state = 'notPlaying'
     player2.classList.add('hide')
     gameControl.playerMode = '1player'
     thePlayer1.state = "Playing"
+    thePlayer2.state = 'notPlaying'
     thePlayer1.scoreTot = 0
     thePlayer2.scoreTot = 0
     score1.textContent = "?"
     score2.textContent = "?"
+    playerMessage1.textContent = thePlayer1.state
+    playerMessage2.textContent = thePlayer2.state
+    gameControl.modeCheck()
     console.log(`***  init  ****`)
     console.log(`thePlayer1.state    ${thePlayer1.state}`)
     console.log(`thePlayer2.state    ${thePlayer2.state}`)
