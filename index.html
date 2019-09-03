@@ -12,11 +12,15 @@
     <header>
         <h1>Dice Game</h1>
         <div class="numOfPlayers">
-            <h4>2 Player Game</h4>
+            <!-- <h4>2 Player Game</h4> -->
             <form>
+                <label for="players">2 Player Game</label>
                 <input type="checkbox" name="players" id="select2Player">
             </form>
         </div>
+        <div class="newGame">
+                <button id="newGame">New Game</button>
+            </div>
     </header>
 
     <div class="gameWrapper">
@@ -28,7 +32,7 @@
                 <div class="diceWrapper">
                     <img id="player1DiceImage" src="./img/dice1.png" alt="dice" id="dice1" class="dice">
                 </div>
-                <div id="score1" class="score">10</div>
+                <div id="score1" class="score">?</div>
                 <div class="contolWrapper">
                     <button id="roleDice1" class="roll">Roll</button>
                 </div>
@@ -39,12 +43,13 @@
                     <div class="diceWrapper">
                         <img id="player2DiceImage" src="./img/dice1.png" alt="dice" id="dice2" class="dice">
                     </div>
-                    <div id="score2" class="score">10</div>
+                    <div id="score2" class="score">?</div>
                     <div class="contolWrapper">
                         <button id="roleDice2" class="roll">Roll</button>
                     </div>
             </div>
         </div>
+ 
     </div>
    
 

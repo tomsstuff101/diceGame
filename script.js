@@ -1,6 +1,7 @@
 const genMessage = document.getElementById('genMessage')
 const choosePlayerNum = document.getElementById('choosePlayerNum')
 const select2Player = document.getElementById('select2Player')
+const newGame = document.getElementById('newGame')
 
 // Player 1
 const player1 = document.getElementById('player1')
@@ -28,18 +29,18 @@ let scoreTotPlayer2 = 0
 gameControl = {
     playerMode: '1player',
     turn: 1,
-    turnCheck: () => {
-        this.turn = (1) ? (this.turn = 2) : (this.turn = 1); 
-    },
-    modeCheck: ()=>{
+    modeCheck(){
+        console.log(`this.playerMode  --> ${this.playerMode}`)
         if(this.playerMode === '2player'){
-            if(turn == 1){
+            if(this.turn == 1){
                 roleDice1.disabled = false
                 roleDice2.disabled = true
+                this.turn = 2
             }
             else{
                 roleDice1.disabled = true
                 roleDice2.disabled = false
+                this.turn = 1
             }
 
         }
@@ -160,6 +161,9 @@ const gamePlay = (player, diceId, scoreId, playerMessage)=> {
         player.scoreTot = player.scoreTot + theScore
         scoreId.value = player.scoreTot
         scoreId.textContent = player.scoreTot
+        gameControl.modeCheck()
+        console.log(`gameControl.playerMode  --> ${gameControl.playerMode}`)
+        console.log(`gameControl.turn   --> ${gameControl.turn}`)
 
         if(player.scoreTot > 20){
             console.log(`game WIN`)
@@ -171,9 +175,24 @@ const gamePlay = (player, diceId, scoreId, playerMessage)=> {
 }
 
 
+const init = ()=>{
+    thePlayer2.state = 'notPlaying'
+    player2.classList.add('hide')
+    gameControl.playerMode = '1player'
+    thePlayer1.state = "Playing"
+    thePlayer1.scoreTot = 0
+    thePlayer2.scoreTot = 0
+    score1.textContent = "?"
+    score2.textContent = "?"
+    console.log(`***  init  ****`)
+    console.log(`thePlayer1.state    ${thePlayer1.state}`)
+    console.log(`thePlayer2.state    ${thePlayer2.state}`)
+    console.log(`thePlayer1.scoreTot   ${thePlayer1.scoreTot}`)
+    console.log(`thePlayer2.scoreTot   ${thePlayer2.scoreTot}`)
+}
 
 
-
+init()
 
 // Listen to button and selection inputs
 roleDice1.addEventListener('click' , ()=>{
@@ -215,8 +234,17 @@ select2Player.addEventListener('click' ,()=>{
 
         console.log(`thePlayer1 state ${thePlayer1.state}`)
         console.log(`thePlayer2 state ${thePlayer2.state}`)
+        console.log(`gameControl.playerMode  ${gameControl.playerMode}`)
+        console.log(`gameControl.turn   ${gameControl.turn}`)
+        
     
     })
+
+
+newGame.addEventListener('click', ()=>{
+    console.log(`new game ****`)
+    init()
+})
 
 // if score is 20 or over win
 // roll is 1 loose

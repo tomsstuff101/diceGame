@@ -39,6 +39,7 @@ h1{
     text-align: center;
     margin: 0;
     padding: 0;
+    font-size: 20px;
 }
 
 .thePlayer{
@@ -89,10 +90,26 @@ h1{
 .contolWrapper{
     display: flex;
     justify-content: center;
-    background-color: blueviolet;
+    /* background-color: blueviolet; */
     height: 5vh;
     width: 10vw;
     margin-top:5vh;
+}
+
+
+.newGame{
+    display: flex;
+    justify-content: center;
+    /* background-color: blueviolet; */
+    height: 3vh;
+    width: 10vw;
+    /* margin-top:5vh; */
+    font-size: 16px;
+}
+
+.newGame button{
+    font-size: 20px;
+    color: blue;
 }
 
 .diceWrapper{
