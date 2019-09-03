@@ -153,12 +153,13 @@ const gamePlay = (player, diceId, scoreId, playerMessage)=> {
             console.log(`game over - loose`)
             playerMessage.textContent = "LOOSE"
             player.scoreTot = 0
-            player.state = "loose"
+            player.state = "loose"  
             return "loose"
         }
 
         player.scoreTot = player.scoreTot + theScore
         scoreId.value = player.scoreTot
+        scoreId.textContent = player.scoreTot
 
         if(player.scoreTot > 20){
             console.log(`game WIN`)
