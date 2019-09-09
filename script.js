@@ -1,9 +1,11 @@
+
+// General DOM links
 const genMessage = document.getElementById('genMessage')
 const choosePlayerNum = document.getElementById('choosePlayerNum')
 const select2Player = document.getElementById('select2Player')
 const newGame = document.getElementById('newGame')
 
-// Player 1
+// Player 1 DOM links
 const player1 = document.getElementById('player1')
 const playerName1 = document.getElementById('playerName1')
 const playerMessage1 = document.getElementById('playerMessage1')
@@ -12,7 +14,7 @@ const score1 = document.getElementById('score1')
 const roleDice1 = document.getElementById('roleDice1')
 const player1DiceImage = document.getElementById('player1DiceImage')
 
-// Player 2
+// Player 2 DOM links
 const player2 = document.getElementById('player2')
 const playerName2 = document.getElementById('playerName2')
 const playerMessage2 = document.getElementById('playerMessage2')
@@ -25,7 +27,13 @@ const player2DiceImage = document.getElementById('player2DiceImage')
 let scoreTotPlayer1 = 0
 let scoreTotPlayer2 = 0
 
+// Object litterals used to old variables and mthods.
+// Wasnt clear what classes might be needed, hence decided to
+// adopt object litterals.
+// Refactoring would implement classes
 
+
+// *** Control game state
 gameControl = {
     playerMode: '1player',
     turn: 1,
@@ -55,26 +63,26 @@ gameControl = {
 }
 
 
+
+// *** Player stuff
 thePlayer1 = {
     playerNumber:1,
-    name: 'Bob Haskins',
+    name: 'Bob Haskins',   // name not yet ustilised
     scoreTot: 0,
     state: 'playing',
     setDiceNumer: ()=>{player1DiceImage.src = diceSidePic}
-
 }
 
 thePlayer2 = {
     playerNumber:2,
-    name: 'Mary Popins',
+    name: 'Mary Popins',   // name not yet ustilised
     scoreTot: 0,
     state: 'playing',
     setDiceNumer: ()=>{player2DiceImage.src = diceSidePic}
-    
 }
 
 
-
+// *** Dice Stuff
 dice = {
     getDicePic: (score) =>{
         score = score -1  // as array starts at 0
@@ -90,48 +98,6 @@ dice = {
 
 
 
-
-// How many players
-// const checkNumPlayers = () =>{
-//     if(choosePlayerNum.checked = true){
-//         console.log(`2 players`)
-//         return true
-//     }
-//     else {
-//         console.log(`1 players`)
-//         return false
-//     }
-// }
-
-
-
-// // Role dice
-// const diceRoll = () =>{
-//     return Math.floor((Math.random()* 6) + 1)
-// }
-
-
-// dice score displayed
-
-// const getDicePic = (score) =>{
-//     score = score -1  // as array starts at 0
-//     const diceSides = ["1.png","2.png","3.png","4.png","5.png","6.png"]
-//     let pic  = "./img/dice" + diceSides[num]
-//     return pic
-// }
-
-// const displayDice = (thePlayer, diceSidePic) => {
-//     //thePLayer is 1 or 2
-//     // diceSidePic   eg  "./img/dice3.png"
-//     if(thePlayer === 1){
-//         player1DiceImage.src = diceSidePic
-//     }
-//     else {
-//         player2DiceImage.src = diceSidePic
-//     }
-// }
-
-
 // TESTING
 // -------
 // let test = diceRoll()
@@ -142,7 +108,7 @@ dice = {
 // displayDice(2,testSide)
 
 
-
+// **** MAIN GAME PLAY  ****
 // keep rolling , score adds up
 const gamePlay = (player, diceId, scoreId, playerMessage)=> {
     // player --> e.g. thePlayer1 object   ,  playerID --> eg. player1
@@ -184,7 +150,8 @@ const gamePlay = (player, diceId, scoreId, playerMessage)=> {
 
 
 
-
+// *** To initialise the Game
+// set to default game values and state
 const init = ()=>{
     player2.classList.add('hide')
     gameControl.playerMode = '1player'
@@ -205,9 +172,10 @@ const init = ()=>{
 }
 
 
-init()
 
-// Listen to button and selection inputs
+//  *** DICE IS ROLLED */
+// Listen to player dice roll button and 
+// communicate the dice info with the player object
 roleDice1.addEventListener('click' , ()=>{
     console.log(`role Dice 1`)
     gamePlay(thePlayer1, player1DiceImage, score1, playerMessage1)
@@ -220,15 +188,10 @@ roleDice2.addEventListener('click' , ()=>{
     })
     
 
-    // gameControl = {
-    //     playerMode: '1player',
-    //     turn: 1,
-    //     turnCheck: () => {
-    //         this.turn = (1) ? (this.turn = 2) : (this.turn = 1); 
-    //     },
-    //     modeCheck:
 
 
+// **** 2 PLAYER MODE is selected
+// Communicate this to the player and game state objects
 select2Player.addEventListener('click' ,()=>{
         console.log(`change player numbers  select2Player.checked ${select2Player.checked}`)
         if(select2Player.checked === false){
@@ -254,20 +217,24 @@ select2Player.addEventListener('click' ,()=>{
     })
 
 
+// *** When new game is clicked , reset the game
 newGame.addEventListener('click', ()=>{
     console.log(`new game ****`)
     init()
 })
 
-// if score is 20 or over win
-// roll is 1 loose
+
+
+// *** Initialise
+// Game state should allways be initialised
+init()
 
 
 
-
+// *****************************
 // Dice Game
+// *****************************
 
-// Brief
 // There are two parts to this project:
 // 	single player 
 // 	multiplayer players
@@ -284,5 +251,35 @@ newGame.addEventListener('click', ()=>{
 //      Rules are the same as the single player version, 
 //      but you must display a dice for each player, and 
 //      it must highlight the current player and keep their score. 
+
+
+
+// *****************************
+// NEW FEATURES
+// *****************************
+
+// Improved UX/UI
+//   Visuals: Dice rolling
+//   choose colour theme of game (dice, background)
+
+//   Audio: Dice roll, win, loose, start
+
+// Player Info
+//  Save (JSON file to localStorage)
+//      game state
+//      game scores (name, number of games won and lost etc)
+//      colour theming
+//  Save (to Database via a RESTfull api)
+//      game state
+//      game scores (name, number of games won and lost etc)
+//      colour theming
+// Setup Up the above as a javascript module so
+// I can import the same functionality into other projects
+
+
+
+
+
+
 
 
